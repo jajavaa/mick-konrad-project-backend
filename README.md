@@ -5,7 +5,7 @@
 
 - [ ] Deploy on Azure.
 - [ ] Database hosted on Azure.
-- [ ] Provide OpenAPI metadata (Swagger)
+- [x] Provide OpenAPI metadata (Swagger)
 - [ ] Entity Framework with code first approach
 
 ## Deliverables
