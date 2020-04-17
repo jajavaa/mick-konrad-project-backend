@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Net.Http;
 
 namespace MickKonradProjectBackend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private static readonly HttpClient client = new HttpClient();
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -24,16 +19,16 @@ namespace MickKonradProjectBackend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [Route("stop/{stopId}")]
+        [Produces("application/json")]
+        public IActionResult Get(int stopId)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-                {
-                    Date = DateTime.Now.AddDays(index),
-                    TemperatureC = rng.Next(-20, 55),
-                    Summary = Summaries[rng.Next(Summaries.Length)]
-                })
-                .ToArray();
+            using (var client = new WebClient())
+            {
+                var responseString = client.DownloadString($"https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?stopid={stopId}&format=json");
+                return Content(responseString, "application/json");
+            }
+            
         }
     }
 }
