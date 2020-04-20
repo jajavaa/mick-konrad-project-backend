@@ -10,7 +10,7 @@ namespace MickKonradProjectBackend
         public string ErrorMessage { set; get; }
         public int NumberOfResults { set; get; }
         public string Timestamp { set; get; }
-        public List<DueTimes> dueTimes;
+        public List<DueTime> dueTimes;
  
     }
 }

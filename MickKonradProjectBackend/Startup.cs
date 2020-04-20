@@ -10,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using MickKonradProjectBackend.Models;
 
 namespace MickKonradProjectBackend
 {
@@ -32,6 +34,8 @@ namespace MickKonradProjectBackend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+
+            services.AddDbContext<DueTimeContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DueTime")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
